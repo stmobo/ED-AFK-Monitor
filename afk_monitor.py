@@ -1,12 +1,13 @@
-import time
+import argparse
 import json
-from pathlib import Path
-import sys
-from datetime import datetime, timezone
-import tomllib
 import os
 import re
-import argparse
+import sys
+import time
+import tomllib
+from datetime import datetime, timezone
+from pathlib import Path
+
 try:
 	from discord import SyncWebhook
 	discord_enabled = True
@@ -120,7 +121,7 @@ if not journal_file:
 	fallover(f"Directory {journal_dir} does not contain any journal file")
 
 # Check webhook appears valid before starting
-reg = r'^https:\/\/discord\.com\/api\/webhooks\/\d+\/[A-z0-9_-]+$'
+reg = r'^https:\/\/(?:canary\.|ptb\.)?discord(?:app)?\.com\/api\/webhooks\/\d+\/[A-z0-9_-]+$'
 if discord_enabled and re.search(reg, discord_webhook):
 	webhook = SyncWebhook.from_url(discord_webhook)
 elif discord_enabled:
